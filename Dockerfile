@@ -28,4 +28,4 @@ COPY . .
 # CMD ["python", "generate-fake-ldif.py", "10"]
 
 ENTRYPOINT ["python", "generate-fake-ldif.py"]
-CMD ["10"]
+CMD ["1", "example.com", "br"]

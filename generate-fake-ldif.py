@@ -1,5 +1,4 @@
-# Generate fake entries for Active Directory
-# Certify that you have Faker installed before running the script. You can install it using pip install faker.
+# Generate fake entries for Active Directory in LDIF format
 # Author: Jarbas
 # Date: 2023-06-26
 
@@ -12,17 +11,8 @@ from faker import Faker
 from faker.providers import person
 
 # Random values
-company_s = ["Matriz", "Filial 01", "Filial 02", "Filial 03", "Filial 04" ]
-department_s = ["NOC", "RH", "TI", "Financeiro", "Marketing"]
 employeeType_s = ['Analista','Desenvolvedor','Gestor','Administrador']
-title_s = ['Sr','Sra']
-telephoneNumber_s = ['+556711112222','+556733334444','+556755556666']
 userAccountControl_s = ['512','514']
-l_s = ['Campo Grande','Rio de Janeiro','Brasília','São Paulo','Porto Velho','Goiânia','Belo Horizonte']
-physicalDeliveryOfficeName_s = ['Escritório #1', 'Escritório #2', 'Escritório #3', 'Escritório #4']
-info_s = ['Informação #1', 'Informação #2', 'Informação #3']
-description_s = ['Descrição #1', 'Descrição #2', 'Descrição #3']
-st_s=['MS', 'MG', 'DF', 'RJ', 'SP', 'GO', 'RO']
 
 # Some variables
 cn=givenName=sn=company=department=description=displayName=sAMAccountName=''
@@ -31,18 +21,9 @@ telephoneNumber=physicalDeliveryOfficeName=c=l=st=streetAddress=''
 userAccountControl=''
 
 # Fixed
-_REALM = "SEUDOMINIO.COM.BR"
 objectCategory='CN=Person,CN=Schema,CN=Configuration'
-c='BR'
-DC = ",".join(f"DC={part}" for part in _REALM.lower().split("."))
-DOMAIN=_REALM.lower()
 
-# Create a Faker instance with the pt_BR locale
-fake = Faker('pt_BR')
-fake.add_provider(person)
-
-existing_logins = set()
-
+# Generate a random CPF (only for pt_BR)
 def generate_cpf():
     def calculate_digit(cpf):
         total = 0
@@ -56,7 +37,7 @@ def generate_cpf():
         cpf.append(calculate_digit(cpf))
     return ''.join(map(str, cpf))
 
-
+existing_logins = set()
 def generate_unique_login(existing_logins):
 #    givenName = unidecode(fake.first_name().lower()).replace(" ", "_")
 ##    givenName = givenName.replace(" ", "_")
@@ -91,24 +72,28 @@ def generate_name_from_login(login):
     return ' '.join(capitalized_parts)
 
 def main(num_rows):
+    # Create a Faker instance with the locale
+    fake = Faker(LANGUAGE)
+    fake.add_provider(person)
+
     for i in range(num_rows):
         login,givenName,sn = generate_unique_login(existing_logins)
         name = generate_name_from_login(login)
-        employeeNumber = fake.rg() #generate_cpf()
+        employeeNumber = fake.passport_number()
         email = f'{login}@{DOMAIN}'
-        department = fake.company_suffix() #fake.department() #random.choice(department_s)
-        company = fake.company() #random.choice(company_s)
-        employeeType = random.choice(employeeType_s)
-        title = fake.prefix() #random.choice(title_s)
-        telephoneNumber = fake.msisdn() #fake.phone_number() #random.choice(telephoneNumber_s)
-        userAccountControl = random.choice(userAccountControl_s)
-        physicalDeliveryOfficeName = fake.street_name() #random.choice(physicalDeliveryOfficeName_s)
-        info = fake.catch_phrase() #random.choice(info_s)
-        description = fake.neighborhood() #random.choice(description_s)
-        streetAddress = fake.street_address() #f"Rua {random.randint(1, 100)}, {random.randint(1, 100)}"
-        l = fake.city() #random.choice(l_s)
-        st = random.choice(st_s)
+        department = fake.company_suffix()
+        company = fake.company()
+        title = fake.prefix()
+        telephoneNumber = fake.msisdn()
+        physicalDeliveryOfficeName = fake.street_name()
+        info = fake.catch_phrase()
+        description = fake.administrative_unit()
+        streetAddress = fake.street_address()
+        l = fake.city()
+        st = fake.state()
         c = fake.current_country_code()
+        employeeType = random.choice(employeeType_s)
+        userAccountControl = random.choice(userAccountControl_s)
 
         print(f'''# Employee Fake #{i+1}
 dn: CN={login},CN=Users,{DC}
@@ -150,8 +135,19 @@ gidNumber: 513
 ''')
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: python {sys.argv[0]} <num_rows>")
+    if len(sys.argv) != 4:
+        print(f"Usage: python {sys.argv[0]} <number of records> <domain.tld> <language>")
         sys.exit(1)
+
     num_rows = int(sys.argv[1])
+    DOMAIN_TLD = sys.argv[2]
+    LANGUAGE = sys.argv[3]
+
+    DC = ",".join(f"DC={part}" for part in DOMAIN_TLD.lower().split("."))
+    DOMAIN=DOMAIN_TLD.lower()
+
+    # Create a Faker instance with the pt_BR locale
+    fake = Faker(LANGUAGE)
+    fake.add_provider(person)
+
     main(num_rows)
