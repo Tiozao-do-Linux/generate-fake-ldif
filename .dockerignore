@@ -1,0 +1,12 @@
+# https://shisho.dev/blog/posts/how-to-use-dockerignore/
+
+.venv
+.git
+.env
+.github
+.gitignore
+.dockerignore
+db.sqlite3
+
+__pycache__
+*.py[cod]

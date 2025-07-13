@@ -1,0 +1,12 @@
+# Backup files # 
+*.bak 
+
+# Python # 
+*.py[cod] 
+*$py.class 
+
+# Environments 
+.env*
+.venv 
+env/
+venv/
