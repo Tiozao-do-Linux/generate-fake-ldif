@@ -1,5 +1,14 @@
-
 # How does it work?
+```
+/*       _\|/_
+         (o o)
+ +----oOO-{_}-OOo----------------------+
+ |                                     |
+ |        Generate Fake Entries        |
+ |             LDIF format             |
+ |                                     |
+ +------------------------------------*/
+```
 
 😎 Have you ever needed to populate an LDAP database in Samba4 with hundreds or thousands of [fake users](https://pypi.org/project/Faker/) for testing?
 
