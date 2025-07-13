@@ -98,7 +98,7 @@ uidNumber: 10001
 gidNumber: 513
 ```
 
-### Two entries for ZABBIX.COM
+### Two entries for EXAMPLE.COM.BR in pt_BR
 
 ```shell
 docker run --rm -it jarbelix/generate-fake-ldif 2 EXAMPLE.COM.BR pt_BR
