@@ -55,7 +55,7 @@ docker build -t jarbelix/generate-fake-ldif .
 
 ```shell
 # Run docker container with ARGs <number of records> <dfully qualified domain name>
-docker run --rm -it jarbelix/generate-fake-ldif 1000 TIOZAODOLINUX.COM pt_BR > /tmp/fake.ldif
+docker run --rm jarbelix/generate-fake-ldif 1000 TIOZAODOLINUX.COM pt_BR > /tmp/fake.ldif
 ```
 
 ## Some small examples of use:
@@ -64,7 +64,7 @@ docker run --rm -it jarbelix/generate-fake-ldif 1000 TIOZAODOLINUX.COM pt_BR > /
 
 
 ```shell
-docker run --rm -it jarbelix/generate-fake-ldif 1 EXAMPLE.COM en_US
+docker run --rm jarbelix/generate-fake-ldif 1 EXAMPLE.COM en_US
 ```
 
 ```ldif
@@ -110,7 +110,7 @@ gidNumber: 513
 ### Two entries for EXAMPLE.COM.BR in pt_BR
 
 ```shell
-docker run --rm -it jarbelix/generate-fake-ldif 2 EXAMPLE.COM.BR pt_BR
+docker run --rm jarbelix/generate-fake-ldif 2 EXAMPLE.COM.BR pt_BR
 ```
 
 ```ldif
