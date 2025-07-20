@@ -10,9 +10,9 @@
  +------------------------------------*/
 ```
 
-😎 Have you ever needed to populate an LDAP database in Samba4 with hundreds or thousands of [fake users](https://pypi.org/project/Faker/) for testing?
+🤔 Have you ever needed to populate an LDAP database in Samba4 with hundreds or thousands of [fake users](https://pypi.org/project/Faker/) for testing?
 
-😎 Yes! The purpose of this repository is to generate a file in LDIF format with fake data that can be used in the population.
+😎 Yes! The purpose of this repository is to generate a file in LDIF format with fake data that can be used to populate an Active Directory (samba4).
 
 ## ❓Main doubts
 
