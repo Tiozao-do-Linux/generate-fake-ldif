@@ -12,8 +12,11 @@ on:
       - '!.gitignore'
       - '!README.md'
       - '!LICENSE'
+
   schedule:
-    - cron: '0 0 * * *' # Example: Runs daily at midnight UTC
+    - cron: '0 0 * * *' # Example: Runs every day at midnight UTC
+    # - cron: '0 13 * * *' # Evety day at 13:00 UTC. Every day at 09:00 GMT-4 (Campo Grande/MS) ===> 09 + 4 = 13 UTC
+
   workflow_dispatch:  # Example: Runs workflow manually
   
 # Your workflows jobs
@@ -46,6 +49,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          tags: jarbelix/generate-fake-ldif:v1,jarbelix/generate-fake-ldif:latest
+          tags: jarbelix/generate-fake-ldif:latest
           platforms: linux/amd64, linux/arm64
           push: true
